@@ -1,5 +1,7 @@
 import express, { json } from 'express';
 import { userRouter } from './routes/userRoutes.js';
+import { planEntregaRouter } from './routes/planEntregaRoutes.js';
+import { puntoEntregaRouter } from './routes/puntoEntregaRoutes.js';
 import { corsMiddleware } from './middlewares/cors.js';
 
 const app = express();
@@ -14,6 +16,8 @@ app.get('/', (req, res) => {
 app.use('/', userRouter);
 app.use('/register', userRouter);
 app.use('/login', userRouter);
+app.use('/planEntrega', planEntregaRouter);
+app.use('/puntoEntrega', puntoEntregaRouter);
 
 const PORT = process.env.PORT ?? 3000;
 

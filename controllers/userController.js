@@ -1,7 +1,7 @@
 import { UserModel } from '../models/postgresql/userModel.js';
 
 export class UserController {
-    static async postUser(req, res) {
+    static async registerUser(req, res) {
         await UserModel.postUser(req, res);
     }
 
