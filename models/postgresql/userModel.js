@@ -12,7 +12,7 @@ export class UserModel {
             const hashedPassword = await bcrypt.hash(password, 10);
             const result = await db`INSERT INTO users (fullName, mobileNumber, email, password) VALUES (${fullName}, ${mobileNumber}, ${email}, ${hashedPassword}) RETURNING *`;
             console.log('Query results:', result);
-            return result;
+            return res.status(200).json({ success: true, data: result });
         } catch (error) {
             console.log('Error executing query:', error);
             throw error;
@@ -42,9 +42,43 @@ export class UserModel {
         } catch (error) {
             console.log('Error executing query:', error);
             return res.status(500).json({ success: false, message: 'An error ocurred while processing your request' });
+        }
+    }
+
+    static async editUser(req, res) {
+        let { id_user, fullname, mobilenumber, email, password } = req.body;
+        try {
+            let updateFields = [
+                fullname && 'fullname',
+                mobilenumber && 'mobilenumber',
+                email && 'email',
+                password && 'password'
+            ].filter(Boolean);
+            if (password) {
+                req.body.password = await bcrypt.hash(password, 10);
+            }
+            console.log(updateFields, "passed values.");
+            console.log(req.body, "passed body.");
+            const result = await db`UPDATE users SET ${db(req.body, updateFields)} WHERE id_user = ${id_user}`;
+            return res.status(200).json({ success: true, data: result });
+        } catch (error) {
+            console.log('Error executing query:', error);
+            return res.status(500).json({ success: false, message: 'An error ocurred while processing your request' });
+        }
+    }
+
+    static async deleteUser(req, res) {
+        let { id_user } = req.params;
+        try {
+            const result = await db`DELETE FROM users WHERE id_user = ${id_user}`;
+            console.log(req.params, "id_user");
+            return res.status(200).json({ success: true, data: result });
+        } catch (error) {
+            console.log('Error executing query:', error);
+            return res.status(500).json({ success: false, message: 'An error ocurred while processing your request' });
         } finally {
             await db.end();
-            console.log('Connection closed.');
+            console.log('connection closed.')
         }
     }
 }
