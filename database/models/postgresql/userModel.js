@@ -6,20 +6,13 @@ import { config } from '../../config/config.js';
 import { db } from './db.js';
 
 export class UserModel {
-    static async registerUser(req, res) {
-        const { fullName, mobileNumber, email, password } = req.body;
-        try {
-            const hashedPassword = await bcrypt.hash(password, 10);
-            const result = await db`INSERT INTO users (fullName, mobileNumber, email, password) VALUES (${fullName}, ${mobileNumber}, ${email}, ${hashedPassword}) RETURNING *`;
-            console.log('Query results:', result);
-            return res.status(200).json({ success: true, data: result });
-        } catch (error) {
-            console.log('Error executing query:', error);
-            throw error;
-        } finally {
-            await db.end();
-            console.log('connection closed.')
-        }
+    static async registerUser(user) {
+        const { fullName, admin, mobileNumber, email, password } = user;
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const result = await db`
+        INSERT INTO users (fullName, admin, mobileNumber, email, password) 
+        VALUES (${fullName},${admin == true}, ${mobileNumber}, ${email}, ${hashedPassword}) RETURNING *`;
+        console.log('Query results:', result);
     }
 
     static async loginUser(req, res) {
