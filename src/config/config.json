@@ -1,0 +1,23 @@
+{
+    "development": {
+      "username": "postgres",
+      "password": "Dolly2244064",
+      "database": "inventario",
+      "host": "localhost",
+      "dialect": "postgres"
+    },
+    "test": {
+      "username": "postgres",
+      "password": "Dolly2244064",
+      "database": "inventario",
+      "host": "localhost",
+      "dialect": "postgres"
+    },
+    "production": {
+      "username": "postgres",
+      "password": "Dolly2244064",
+      "database": "inventario",
+      "host": "localhost",
+      "dialect": "postgres"
+    }
+  }

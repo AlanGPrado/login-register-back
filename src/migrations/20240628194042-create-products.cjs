@@ -33,12 +33,16 @@ module.exports = {
         allowNull: true,
         type: Sequelize.DECIMAL
       },
+      image: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
       stock_qty: {
         allowNull: true,
         type: Sequelize.INTEGER
       },
       is_active: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.BOOLEAN
       },
       createdAt: {
